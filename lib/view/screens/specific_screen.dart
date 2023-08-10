@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
 
 class SpecificScreen extends StatefulWidget {
@@ -79,9 +80,7 @@ class _SpecificScreenState extends State<SpecificScreen> {
                   textColor: const Color.fromARGB(190, 255, 255, 255),
                   subtitle: const Text('The most read news',
                       style: TextStyle(fontSize: 15, color: Colors.white70)),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
+                  onTap: () {},
                 ),
                 const Divider(),
                 const SizedBox(height: 20),

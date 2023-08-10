@@ -9,7 +9,7 @@ class CarouselWidgeet extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: size.height * 0.13,
+          height: size.height * 0.15,
           width: size.width,
           decoration: const BoxDecoration(
               gradient: LinearGradient(colors: [
@@ -20,7 +20,7 @@ class CarouselWidgeet extends StatelessWidget {
         Container(
           width: size.width,
           height: size.height * 0.35,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(

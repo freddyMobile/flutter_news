@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news/controllers/news_controller.dart';
 import 'package:flutter_news/view/screens/loading_screen.dart';
+import 'package:flutter_news/view/screens/search_screen.dart';
 import 'package:flutter_news/view/screens/single_news_screen.dart';
 import 'package:flutter_news/view/widgets/carousel_widget.dart';
 import 'package:flutter_news/view/widgets/news_widget.dart';
 import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
-import 'package:lottie/lottie.dart';
-import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,10 +18,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   NewsController newsController = Get.put(NewsController());
+  String selectedField = "Caliber.az";
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero).then(
       (value) async {
@@ -43,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.black,
@@ -62,9 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Caliber.az',
-              style: TextStyle(color: Colors.white, fontSize: 24),
+            Text(
+              selectedField,
+              style: const TextStyle(color: Colors.white, fontSize: 24),
             ),
             SizedBox(
               width: size.width,
@@ -78,7 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => const SearchScreen());
+              },
               icon: const Icon(
                 Icons.search,
                 color: Colors.white,
@@ -96,9 +98,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(0, 25, 98, 5),
                 ),
-                child: Image.network(
-                  'https://cdn.caliber.az/media/photos/normal/standart.jpeg',
-                  fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      selectedField = "Caliber.az";
+                    });
+                  },
+                  child: Image.network(
+                    'https://cdn.caliber.az/media/photos/normal/standart.jpeg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               ListTile(
@@ -130,6 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(fontSize: 14, color: Colors.white70)),
                   onTap: () {
                     Navigator.of(context).pop();
+                    setState(() {
+                      selectedField = "POLITICS";
+                    });
                   },
                 ),
               ),
@@ -145,6 +158,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 14, color: Colors.white70)),
                 onTap: () {
                   Navigator.of(context).pop();
+                  setState(() {
+                    selectedField = "KARABAKH";
+                  });
                 },
               ),
               const Divider(),
@@ -160,6 +176,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 14, color: Colors.white70)),
                 onTap: () {
                   Navigator.of(context).pop();
+                  setState(() {
+                    selectedField = "ECONOMICS";
+                  });
                 },
               ),
               const Divider(),
@@ -175,6 +194,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 14, color: Colors.white70)),
                 onTap: () {
                   Navigator.of(context).pop();
+                  newsController.fetchAllNews();
+                  setState(() {
+                    selectedField = "ANALYTICS";
+                  });
                 },
               ),
               const Divider(),
@@ -190,6 +213,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 14, color: Colors.white70)),
                 onTap: () {
                   Navigator.of(context).pop();
+                  setState(() {
+                    selectedField = "INTERVIEWS";
+                  });
                 },
               ),
               const Divider(),
@@ -205,6 +231,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 14, color: Colors.white70)),
                 onTap: () {
                   Navigator.of(context).pop();
+                  setState(() {
+                    selectedField = "MULTIMEDİA";
+                  });
                 },
               ),
             ],
@@ -224,7 +253,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: size.height * 0.85,
+                        height: selectedField == "Caliber.az"
+                            ? size.height * 0.85
+                            : 0,
                         child: PageView(
                           scrollDirection: Axis.horizontal,
                           children: const [
@@ -235,9 +266,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-
                       Column(
                         children: newsController.newsList
+                            .where((element) {
+                              if (selectedField == "Caliber.az") {
+                                return true;
+                              } else if (selectedField != "Caliber.az" &&
+                                  element.category !=
+                                      selectedField.toLowerCase()) {
+                                return false;
+                              }
+                              return true;
+                            })
                             .map((e) => InkWell(
                                   onTap: () {
                                     Get.to(() => SingleNewsScreen(
@@ -257,12 +297,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ))
                             .toList(),
                       ),
-                      // NewsWidget(),
-                      // NewsWidget(),
-                      // NewsWidget(),
-                      // NewsWidget(),
-                      // NewsWidget(),
-                      // NewsWidget(),
                     ],
                   ),
                 ),

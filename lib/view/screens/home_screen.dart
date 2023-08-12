@@ -252,20 +252,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.only(bottom: size.height * 0.1),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: selectedField == "Caliber.az"
-                            ? size.height * 0.85
-                            : 0,
-                        child: PageView(
-                          scrollDirection: Axis.horizontal,
-                          children: const [
-                            CarouselWidgeet(),
-                            CarouselWidgeet(),
-                            CarouselWidgeet(),
-                            CarouselWidgeet(),
-                          ],
+                      if (selectedField == "Caliber.az")
+                        SizedBox(
+                          height: size.height * 0.85,
+                          child: PageView(
+                            scrollDirection: Axis.horizontal,
+                            children: newsController.newsSlider
+                                .map((e) => InkWell(
+                                      onTap: () {
+                                        Get.to(() => SingleNewsScreen(
+                                            body: e.body,
+                                            category: e.category,
+                                            date: e.date,
+                                            imageUrl: e.imageUrl,
+                                            viewCount: e.viewCount,
+                                            description: e.description));
+                                      },
+                                      child: CarouselWidgeet(
+                                        description: e.description,
+                                        category: e.category,
+                                        date: e.date,
+                                        imageUrl: e.imageUrl,
+                                      ),
+                                    ))
+                                .toList(),
+                          ),
                         ),
-                      ),
                       Column(
                         children: newsController.newsList
                             .where((element) {

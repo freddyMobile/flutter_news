@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CarouselWidgeet extends StatelessWidget {
-  const CarouselWidgeet({super.key});
+  final String imageUrl;
+  final String category;
+  final String date;
+  final String description;
+
+  const CarouselWidgeet({
+    super.key,
+    required this.category,
+    required this.date,
+    required this.imageUrl,
+    required this.description,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +31,9 @@ class CarouselWidgeet extends StatelessWidget {
         Container(
           width: size.width,
           height: size.height * 0.35,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                      'https://media.cnn.com/api/v1/images/stellar/prod/230808095352-lavrov-wang-yi-moscow-file.jpg?c=16x9&q=h_720,w_1280,c_fill/f_webp'))),
+                  fit: BoxFit.fill, image: NetworkImage(imageUrl))),
         ),
         Stack(
           children: [
@@ -55,9 +64,9 @@ class CarouselWidgeet extends StatelessWidget {
                           SizedBox(
                             width: size.width * 0.02,
                           ),
-                          const Text(
-                            '07 Avqust 2023-16:07',
-                            style: TextStyle(color: Colors.white),
+                          Text(
+                            date,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
@@ -68,9 +77,9 @@ class CarouselWidgeet extends StatelessWidget {
                             color: Colors.red,
                             borderRadius: BorderRadius.circular(10)),
                         alignment: Alignment.center,
-                        child: const Text(
-                          'Interviews',
-                          style: TextStyle(color: Colors.white),
+                        child: Text(
+                          category,
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ],
@@ -78,9 +87,10 @@ class CarouselWidgeet extends StatelessWidget {
                   SizedBox(
                     height: size.height * 0.02,
                   ),
-                  const Text(
-                    'War until the next election',
-                    style: TextStyle(
+                  Text(
+                    description,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 24,
                         fontWeight: FontWeight.w600),
@@ -96,7 +106,7 @@ class CarouselWidgeet extends StatelessWidget {
                         color: Colors.green),
                     alignment: Alignment.center,
                     child: const Text(
-                      'Zuckememensidjs',
+                      'Review by Caliber.az',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),

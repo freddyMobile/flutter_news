@@ -36,16 +36,16 @@ class SingleNewsScreen extends StatelessWidget {
             icon: const FaIcon(FontAwesomeIcons.arrowLeft),
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.heart),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Icon(Icons.share),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: const FaIcon(FontAwesomeIcons.heart),
+        //   ),
+        //   const Padding(
+        //     padding: EdgeInsets.all(15.0),
+        //     child: Icon(Icons.share),
+        //   ),
+        // ],
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
